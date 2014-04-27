@@ -63,7 +63,9 @@ def key_in_string(s):
 
 def key_in_code_line(s):    
     m = re.search("NSLocalizedString\(@\"(.*?)\",", s)        
-
+    if not m:    
+        m = re.search("LS\(@\"(.*?)\"\)", s)
+    
     if not m:
         return None    
     
@@ -100,7 +102,7 @@ def keys_set_in_strings_file_at_path(p):
     line = 0
     for s in f:
         line += 1
-		
+        
         if s.strip().startswith('//'):
             continue
         
@@ -171,9 +173,9 @@ def show_untranslated_keys_in_project(project_path):
         error("", 0, "bad project path:%s" % project_path)
         return
     
-    keys_set_in_code = keys_set_in_code_at_path(project_path)
+    keys_set_in_code = keys_set_in_code_at_path(project_path + "/Classes")
 
-    strings_paths = paths_with_files_passing_test_at_path(lambda f:f == "Localizable.strings", project_path)
+    strings_paths = paths_with_files_passing_test_at_path(lambda f:f == "Localizable.strings", project_path + "/Resources")
     
     for p in strings_paths:
         keys_set_in_strings = keys_set_in_strings_file_at_path(p)
