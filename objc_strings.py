@@ -186,24 +186,23 @@ def show_untranslated_keys_in_project(project_path):
         
         language_code = language_code_in_strings_path(p)
         
-        # print "Strings file = " + p
-        # print "%i = %i - %i" % (len(missing_keys),  len(keys_set_in_code), len(keys_set_in_strings))
+        print "Strings file = " + p    
 
-        # for k in missing_keys:
-        #     print "\"" + k + "\" = \"" + k + "\";"
-        # print "\n\n\n"
+        for k in missing_keys:
+            print "\"" + k + "\" = \"" + k + "\";"
+        print "\n\n\n"
 
-        for k in missing_keys:        
-            message = "missing key in %s: \"%s\"" % (language_code, k)
+        # for k in missing_keys:        
+        #     message = "missing key in %s: \"%s\"" % (language_code, k)
             
-            for (p_, n) in m_paths_and_line_numbers_for_key[k]:
-                warning(p_, n, message)        
+        #     for (p_, n) in m_paths_and_line_numbers_for_key[k]:
+        #         warning(p_, n, message)        
         
-        for k in unused_keys:
-            message = "unused key in %s: \"%s\"" % (language_code, k)
+        # for k in unused_keys:
+        #     message = "unused key in %s: \"%s\"" % (language_code, k)
             
-            for (p, n) in s_paths_and_line_numbers_for_key[k]:
-                warning(p, n, message)
+        #     for (p, n) in s_paths_and_line_numbers_for_key[k]:
+        #         warning(p, n, message)
 
 def main():
     
