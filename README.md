@@ -9,7 +9,8 @@ Path of an Objective-C project.
 #### Output
 
 1. warnings for untranslated strings in *.m
-2. warnings for unused keys in Localization.strings
+2. warnings for unused keys in Localization.strings (except lines ending with //#ignore)
+)
 3. errors for keys defined twice or more in the same .strings file
 
 #### Typical usage

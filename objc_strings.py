@@ -46,7 +46,11 @@ def language_code_in_strings_path(p):
     return None
 
 def key_in_string(s):
-    m = re.search("(?u)^\"(.*?)\"\s*=.*\";(?<!#ignore)$", s) # Lines ending with #ignore will be ignored 
+    m = re.search("\/\/#ignore\s*$", s);    
+    if m:  # Lines ending with "//#ignore" will be ignored 
+        return None
+        
+    m = re.search("(?u)^\"(.*?)\"\s*=", s)
     if not m:
         return None
     
