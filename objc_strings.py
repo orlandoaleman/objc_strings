@@ -48,6 +48,7 @@ def language_code_in_strings_path(p):
 def key_in_string(s):
     m = re.search("\/\/#ignore\s*$", s);    
     if m:  # Lines ending with "//#ignore" will be ignored 
+        #print "Ignoring line %s" % (s.rstrip('\n'))
         return None
         
     m = re.search("(?u)^\"(.*?)\"\s*=", s)
@@ -178,6 +179,8 @@ def show_untranslated_keys_in_project(project_path):
     strings_paths = paths_with_files_passing_test_at_path(lambda f:f == "Localizable.strings", project_path + "/Resources")
     
     for p in strings_paths:
+        print "** Strings file = " + p    
+
         keys_set_in_strings = keys_set_in_strings_file_at_path(p)
 
         missing_keys = keys_set_in_code - keys_set_in_strings
@@ -185,24 +188,30 @@ def show_untranslated_keys_in_project(project_path):
         unused_keys = keys_set_in_strings - keys_set_in_code
         
         language_code = language_code_in_strings_path(p)
-        
-        print "Strings file = " + p    
 
-        for k in missing_keys:
-            print "\"" + k + "\" = \"" + k + "\";"
+        if len(missing_keys) > 0: 
+            print "Strings to be added to the file:"
+
+            for k in missing_keys:
+                print "\"" + k + "\" = \"" + k + "\";"
+            print "\n\n"        
+
+
+        print "XCode Warnings:"
+
+        for k in missing_keys:        
+            message = "missing key in %s: \"%s\"" % (language_code, k)
+            
+            for (p_, n) in m_paths_and_line_numbers_for_key[k]:
+                warning(p_, n, message)        
+        
+        for k in unused_keys:
+            message = "unused key in %s: \"%s\"" % (language_code, k)
+            
+            for (p, n) in s_paths_and_line_numbers_for_key[k]:
+                warning(p, n, message)
+
         print "\n\n\n"
-
-        # for k in missing_keys:        
-        #     message = "missing key in %s: \"%s\"" % (language_code, k)
-            
-        #     for (p_, n) in m_paths_and_line_numbers_for_key[k]:
-        #         warning(p_, n, message)        
-        
-        # for k in unused_keys:
-        #     message = "unused key in %s: \"%s\"" % (language_code, k)
-            
-        #     for (p, n) in s_paths_and_line_numbers_for_key[k]:
-        #         warning(p, n, message)
 
 def main():
     
