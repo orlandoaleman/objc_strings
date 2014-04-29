@@ -56,7 +56,7 @@ def key_in_string(s):
     
     key = m.group(1)
     
-    if key.startswith("//") or key.startswith("/*") or key.startswith("#"):
+    if key.startswith("//") or key.startswith("/*"):
         return None
     
     return key
